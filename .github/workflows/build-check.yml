@@ -1,0 +1,38 @@
+name: Build Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    name: Check flake
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Verify flake
+        run: nix flake check --all-systems
+
+      - name: Verify lib functions
+        run: |
+          nix repl --file - <<EOF
+          let
+            lib = import ./lib { inherit (import <nixpkgs> {}) lib; };
+          in
+          {
+            scanPaths = lib.scanPaths ./.;
+            mkEditableConfig = lib.mkEditableConfig;
+            mkEditableConfigDir = lib.mkEditableConfigDir;
+          }
+          EOF

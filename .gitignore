@@ -1,0 +1,40 @@
+# Nix build outputs and profiles
+/result
+/result-*
+.nix-profile
+.gcroots/
+
+# Nix store artefacts (if you ever accidentally dump one)
+/nix
+/nix-store
+*.drv
+
+# Flake lock file: usually you commit this, so don't ignore
+# /flake.lock
+
+# Editor/tooling
+.vscode/
+.idea/
+*.sw?
+*~
+.DS_Store
+
+# macOS thumbnail cache
+**/.DS_Store
+
+# shell history or secrets
+.history
+*.env
+
+# Logs, temporary files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Optional: nix cache directory
+.nix-cache/
+
+# Backup files
+*.bak
+*.backup
